@@ -1,0 +1,394 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuMind AI — Intelligent Document Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="background">
+    <div class="blob blob-one"></div>
+    <div class="blob blob-two"></div>
+    <div class="blob blob-three"></div>
+</div>
+
+<header class="navbar">
+    <div class="brand">
+        <div class="brand-icon">✦</div>
+        <div>
+            <div class="brand-name">DocuMind <span>AI</span></div>
+            <div class="brand-subtitle">INTELLIGENT DOCUMENT ANALYZER</div>
+        </div>
+    </div>
+
+    <div class="engine-status">
+        <span class="status-dot"></span>
+        AI Engine Online
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="hero">
+        <div class="hero-badge">✦ POWERED BY GEMINI VISION AI</div>
+
+        <h1>
+            Turn documents into
+            <span>intelligent insights.</span>
+        </h1>
+
+        <p>
+            Upload a document and let AI identify, understand,
+            extract and summarize the important information instantly.
+        </p>
+    </section>
+
+    <!-- UPLOAD -->
+    <section class="upload-card" id="uploadSection">
+
+        <div class="upload-icon">
+            <span>↑</span>
+        </div>
+
+        <h2>Upload your document</h2>
+
+        <p class="upload-text">
+            Drag & drop your document here or select a file
+        </p>
+
+        <div class="formats">
+            JPG <span>•</span> PNG <span>•</span> WEBP
+            <span>•</span> PDF
+            <span>•</span> Maximum 10 MB
+        </div>
+
+        <input type="file" id="fileInput"
+               accept=".jpg,.jpeg,.png,.webp,.pdf"
+               hidden>
+
+        <button class="upload-button" id="chooseButton">
+            <span>＋</span> Choose Document
+        </button>
+
+        <div id="fileInfo" class="file-info hidden"></div>
+
+    </section>
+
+    <!-- PREVIEW -->
+    <section id="previewSection" class="preview-section hidden">
+
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">DOCUMENT</span>
+                <h2>Ready for analysis</h2>
+            </div>
+        </div>
+
+        <div class="preview-card">
+
+            <div id="previewBox" class="preview-box">
+                <div class="document-placeholder">📄</div>
+            </div>
+
+            <div class="preview-details">
+
+                <div class="selected-file">
+                    <div class="file-symbol">📄</div>
+                    <div>
+                        <strong id="selectedFileName">Document</strong>
+                        <small id="selectedFileSize">0 KB</small>
+                    </div>
+                </div>
+
+                <button id="analyzeButton" class="analyze-button">
+                    <span>✦</span>
+                    Analyze with AI
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- LOADING -->
+    <section id="loadingSection" class="loading-section hidden">
+
+        <div class="ai-loader">
+            <div class="loader-ring"></div>
+            <div class="loader-center">✦</div>
+        </div>
+
+        <h2>AI is analyzing your document</h2>
+
+        <p id="loadingText">
+            Reading document structure...
+        </p>
+
+        <div class="analysis-steps">
+            <div class="analysis-step active">
+                <span>✓</span> Reading
+            </div>
+            <div class="analysis-step">
+                <span>2</span> Understanding
+            </div>
+            <div class="analysis-step">
+                <span>3</span> Extracting
+            </div>
+            <div class="analysis-step">
+                <span>4</span> Summarizing
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ERROR -->
+    <section id="errorSection" class="error-section hidden">
+
+        <div class="error-icon">!</div>
+
+        <div>
+            <h3>Analysis failed</h3>
+            <p id="errorMessage">
+                Something went wrong while analyzing the document.
+            </p>
+        </div>
+
+        <button id="retryButton">Try Again</button>
+
+    </section>
+
+    <!-- ================= RESULT ================= -->
+    <section id="resultSection" class="result-section hidden">
+
+        <div class="result-header">
+
+            <div>
+                <div class="eyebrow">AI ANALYSIS COMPLETE</div>
+
+                <h2>
+                    Document Intelligence
+                    <span>Report</span>
+                </h2>
+
+                <p>
+                    Your document has been analyzed and transformed
+                    into structured insights.
+                </p>
+            </div>
+
+            <div class="result-actions">
+                <button id="copyButton" class="secondary-button">
+                    ⧉ Copy Results
+                </button>
+
+                <button id="newDocumentButton" class="primary-button">
+                    ＋ New Analysis
+                </button>
+            </div>
+
+        </div>
+
+        <!-- TOP STATS -->
+        <div class="stats-grid">
+
+            <div class="stat-card stat-purple">
+                <div class="stat-top">
+                    <span class="stat-icon">📄</span>
+                    <span class="stat-label">DOCUMENT TYPE</span>
+                </div>
+
+                <div id="documentType" class="stat-value">
+                    Document
+                </div>
+
+                <div class="stat-footer">
+                    AI Classification
+                </div>
+            </div>
+
+            <div class="stat-card stat-blue">
+                <div class="stat-top">
+                    <span class="stat-icon">🎯</span>
+                    <span class="stat-label">CONFIDENCE</span>
+                </div>
+
+                <div id="confidenceValue" class="stat-value">
+                    95%
+                </div>
+
+                <div class="confidence-bar">
+                    <div id="confidenceBar"></div>
+                </div>
+            </div>
+
+            <div class="stat-card stat-green">
+                <div class="stat-top">
+                    <span class="stat-icon">🔎</span>
+                    <span class="stat-label">FIELDS FOUND</span>
+                </div>
+
+                <div id="fieldsCount" class="stat-value">
+                    0
+                </div>
+
+                <div class="stat-footer">
+                    Important information
+                </div>
+            </div>
+
+            <div class="stat-card stat-orange">
+                <div class="stat-top">
+                    <span class="stat-icon">⚡</span>
+                    <span class="stat-label">AI STATUS</span>
+                </div>
+
+                <div class="stat-value status-success">
+                    Complete
+                </div>
+
+                <div class="stat-footer">
+                    Analysis successful
+                </div>
+            </div>
+
+        </div>
+
+        <!-- MAIN RESULT GRID -->
+        <div class="result-grid">
+
+            <!-- SUMMARY -->
+            <div class="result-card summary-card">
+
+                <div class="card-title">
+                    <div class="title-icon purple">✦</div>
+                    <div>
+                        <span>AI GENERATED</span>
+                        <h3>Document Summary</h3>
+                    </div>
+                </div>
+
+                <div id="summaryText" class="summary-text">
+                    No summary available.
+                </div>
+
+            </div>
+
+            <!-- DOCUMENT INSIGHTS -->
+            <div class="result-card insight-card">
+
+                <div class="card-title">
+                    <div class="title-icon blue">◈</div>
+                    <div>
+                        <span>SMART INSIGHTS</span>
+                        <h3>AI Insights</h3>
+                    </div>
+                </div>
+
+                <div id="insightsList" class="insights-list">
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- EXTRACTED INFORMATION -->
+        <div class="result-card extracted-card">
+
+            <div class="card-title card-title-row">
+
+                <div class="title-left">
+                    <div class="title-icon green">✓</div>
+                    <div>
+                        <span>STRUCTURED DATA</span>
+                        <h3>Extracted Information</h3>
+                    </div>
+                </div>
+
+                <div id="extractedBadge" class="data-badge">
+                    AI Extracted
+                </div>
+
+            </div>
+
+            <div id="extractedData" class="extracted-grid">
+            </div>
+
+        </div>
+
+        <!-- IMPORTANT FINDINGS -->
+        <div class="result-card findings-card">
+
+            <div class="card-title">
+
+                <div class="title-icon orange">!</div>
+
+                <div>
+                    <span>ATTENTION</span>
+                    <h3>Important Findings</h3>
+                </div>
+
+            </div>
+
+            <div id="findingsList" class="findings-list">
+            </div>
+
+        </div>
+
+        <!-- RAW RESPONSE -->
+        <details class="raw-result">
+
+            <summary>
+                <span>View technical AI response</span>
+                <span>⌄</span>
+            </summary>
+
+            <pre id="rawResult"></pre>
+
+        </details>
+
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features">
+
+        <div class="feature-card">
+            <div class="feature-icon purple-bg">✦</div>
+            <h3>Gemini Vision AI</h3>
+            <p>Advanced AI understands the visual and textual content of your documents.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon blue-bg">⚡</div>
+            <h3>Lightning Fast</h3>
+            <p>Extract important information within seconds using intelligent processing.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon green-bg">🔐</div>
+            <h3>Privacy First</h3>
+            <p>Your uploaded documents are processed securely without permanent storage.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon orange-bg">◈</div>
+            <h3>Smart Detection</h3>
+            <p>Automatically detects document types and identifies important information.</p>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <div>✦ DocuMind AI</div>
+    <span>Intelligent Document Analysis • 2026</span>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
